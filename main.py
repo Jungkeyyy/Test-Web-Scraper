@@ -14,7 +14,7 @@ qualified_teams_table_rows = qualified_teams_table.find_all('tr')[2:]
 
 qualified_teams_region = []
 for row in qualified_teams_table_rows:
-    qualified_teams_region.append(row.find_all('td')[0].get_text())
+    qualified_teams_region.append(row.find_all('td')[0].find_all(text=True, recursive=False)[-1].get_text(strip=True))
 
 #finding qualified teams
 qualified_teams = []
