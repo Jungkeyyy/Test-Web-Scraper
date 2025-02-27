@@ -16,7 +16,7 @@ qualified_teams_region = []
 for row in qualified_teams_table_rows:
     qualified_teams_region.append(row.find_all('td')[0].find_all(text=True, recursive=False)[-1].get_text(strip=True))
 
-#finding qualified teams
+# finding qualified teams
 qualified_teams = []
 for row in qualified_teams_table_rows:
     cells = row.find_all('td')
@@ -36,7 +36,28 @@ for row in qualified_teams_table_rows:
     else:
         qualified_teams.append("tbd")
 
+# schedule
+schedule_blocks = soup.find_all(class_="wikitable2 matchlist") #table
+
+matches = []
+days = []
+for block in schedule_blocks:
+    day_string = block.find('th').get_text().replace("[showhide]", '').strip()
+    days.append(day_string)
+    
+    schedule_block_rows = block.find_all('tr')
+    for row in schedule_block_rows[7:]: # tr object in tr array
+        cells = row.find_all('td')
+        if len(cells) >= 3:
+            left_team = cells[0].find('span', class_="teamname").get_text()
+            time = cells[1].get_text()
+            right_team = cells[2].find('span', class_="teamname").get_text()
+            matches.append(f"{left_team} vs {right_team} at {time}")
+        else:
+            continue
 
 #print(qualified_teams_table.prettify())
 print(qualified_teams_region)
 print(qualified_teams)
+print(days)
+print(matches)
