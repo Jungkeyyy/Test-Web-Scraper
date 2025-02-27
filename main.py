@@ -1,12 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 
-url = "https://www.espn.com.au/nba/schedule"
+url = "https://www.nba.com/schedule"
 page = requests.get(url)
 
 soup = BeautifulSoup(page.content, "html.parser")
     
 # schedule
-schedule = soup.find(id="matchlist-content-wrapper")
+schedule = soup.find_all("div")
 
-days = schedule.find_all('th')
+print(soup)
