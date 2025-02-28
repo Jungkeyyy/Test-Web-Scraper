@@ -45,16 +45,18 @@ for block in schedule_blocks:
     day_string = block.find('th').get_text().replace("[showhide]", '').strip()
     days.append(day_string)
     
+    match_on_day = []
     schedule_block_rows = block.find_all('tr')
     for row in schedule_block_rows[7:]: # tr object in tr array
         cells = row.find_all('td')
         if len(cells) >= 3:
             left_team = cells[0].find('span', class_="teamname").get_text()
-            time = cells[1].get_text()
+            time = cells[1].find('span').get_text()
             right_team = cells[2].find('span', class_="teamname").get_text()
-            matches.append(f"{left_team} vs {right_team} at {time}")
+            match_on_day.append(f"{left_team} vs {right_team} at {time[:-6]} UTC")
         else:
             continue
+    matches.append(match_on_day)
 
 #print(qualified_teams_table.prettify())
 print(qualified_teams_region)
